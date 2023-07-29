@@ -1,5 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import { load } from "js-yaml";
+import { readFile } from "fs/promises"
 
 import {Tenant} from './types'
 
@@ -8,16 +10,25 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
+
+let estate = new Set<Tenant>()
+
+async function startup() {
+  estate.clear()
+  estate.add(load(await readFile('./data/tenants/first.yaml', "utf8")) as Tenant);
+  estate.add(load(await readFile('./data/tenants/second.yaml', "utf8")) as Tenant);
+}
+startup();
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server!');
 });
 
 app.get('/tenants', (req: Request, res: Response) => {
-  let tenants = new Set<Tenant>()
-  tenants.add(new Tenant("T1"))
-  tenants.add(new Tenant("T2"))
-  // console.log(tenants.size)
-  res.send(JSON.stringify(Array.from(tenants)));
+  startup().then( () => {
+    console.log(estate.size)
+    res.send(JSON.stringify(Array.from(estate)));
+  })
 });
 
 
