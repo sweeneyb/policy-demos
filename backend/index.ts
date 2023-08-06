@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { load } from "js-yaml";
 import { readFile } from "fs/promises"
 
-import {Tenant} from './types'
+import {AccountFlow, Tenant} from './types'
 
 dotenv.config();
 
@@ -11,12 +11,16 @@ const app: Express = express();
 const port = process.env.PORT;
 
 
-let estate = new Set<Tenant>()
+// let estate = new Set<Tenant>()
+let estate = new Map<string, Tenant>()
 
 async function startup() {
   estate.clear()
-  estate.add(load(await readFile('./data/tenants/first.yaml', "utf8")) as Tenant);
-  estate.add(load(await readFile('./data/tenants/second.yaml', "utf8")) as Tenant);
+  let files = ["first.yaml", "second.yaml"]
+  for (var file of files)  {
+    var tenant = load(await readFile('./data/tenants/'+file, "utf8")) as Tenant;
+    estate.set(tenant.name, tenant)
+  }
 }
 startup();
 
@@ -33,7 +37,9 @@ app.get('/tenants', (req: Request, res: Response) => {
 
 
 app.get('/tenant/:tenantId', (req: Request, res: Response) => {
-  let tenant : Tenant =  new Tenant(req.params.tenantId)
+  let tenant = estate.get(req.params.tenantId)
+  // const foo : AccountFlow[] = []
+  // let tenant : Tenant =  new Tenant(req.params.tenantId, new Map<String, )
   res.send(tenant);
 });
 

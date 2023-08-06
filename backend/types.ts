@@ -1,9 +1,14 @@
+type TenantKey = {
+    [id: string]: AccountFlow
+}
 export class Tenant  {
     public name: string;
     public size: number = 42
+    public accountFlows = new Map<string, AccountFlow>()
 
-    constructor(name: string) {
+    constructor(name: string, accountFlows: Map<string, AccountFlow>) {
         this.name = name
+        this.accountFlows = accountFlows
     }
 }
 

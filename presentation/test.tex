@@ -10,8 +10,42 @@
 \frame{\titlepage}
 
 \begin{frame}
-\frametitle{Sample frame title}
-This is some text in the first frame. This is some text in the first frame. This is some text in the first frame.
+\frametitle{How did we get here?}
+\begin{itemize}
+  \item You're a multitenant platform SRE.
+  \item You provide a range of features, but a power user wants a narrow "happy path"
+  \item How can you let them know when somebody goes off path?
+\end{itemize}
 \end{frame}
+
+\begin{frame}
+\frametitle{Let's talk about policy!}
+\begin{itemize}
+  \item if/else in code, for one user, is  ... suboptimal.
+  \item My team should get out of the way of their data collection
+  \item If only there were a language that would allow them to express their rules (and maybe for us to safely enforce those rules down the road)
+\end{itemize}
+
+There is - it's Rego.
+\end{frame}
+
+\begin{frame}
+\frametitle{What's Rego?}
+\begin{itemize}
+  \item Rego is the language behind Open Policy Agent and conftest.
+  \item "Rego was inspired .. [a] query language. Rego queries are assertions on data stored in OPA. These queries can be used to define policies that enumerate instances of data that violate the expected state of the system".\footnotemark
+  \item So if your API produces JSON, we can see what does (and does not) match your policy.
+\end{itemize}
+
+\footnotetext[1]{https://www.openpolicyagent.org/docs/latest/policy-language}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{How is this useful?}
+\begin{itemize}
+  \item Say your platform links workflows to some owner by their email address
+  \item Did you validate the email is internal? Is the email owned by a Managed Service Provider?
+\end{itemize}
 
 \end{document}
