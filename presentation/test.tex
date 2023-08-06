@@ -1,4 +1,5 @@
 \documentclass{beamer}
+\usepackage{multicol}
 %Information to be included in the title page:
 \title{Policy for Use-Case Awareness}
 \author{Brian Sweeney}
@@ -47,5 +48,85 @@ There is - it's Rego.
   \item Say your platform links workflows to some owner by their email address
   \item Did you validate the email is internal? Is the email owned by a Managed Service Provider?
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Let\'s validate email domains (the data)}
+\begin{verbatim}
+name: Second
+size: 72
+accountFlows:
+  - act_flow_001: 
+      responsibleEmail: vhhcjfjl@sharklasers.com
+      FlowNodes:
+        - name: Flow_001
+          address: flow001.vcap.me
+          region: US
+          parallelism: 5
+        - name: Flow_002
+          address: flow002.vcap.me
+          region: US
+          parallelism: 5
+  - act_flow_002: 
+      responsibleEmail: vhhcjfjj@sharklasers.com
+  - act_flow_003:
+      responsibleEmail: vhhcjfjj@vcap.me
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Let\'s validate email domains (the policy)}
+\begin{verbatim}
+package main
+
+deny[msg] {
+    flow := input.accountFlows[_]
+    # print(flow)
+    some key
+    m := is_internal_email(flow[key].responsibleEmail)
+    not m
+    # print(flow)
+    msg = sprintf("External email addres in flow  %v: %v", [key, flow[key].responsibleEmail])
+}
+
+is_internal_email(email_address) = true {
+    pattern := "@sharklasers.com$"
+    matched := regex.match(pattern, email_address)
+    matched == true 
+} else = false { true }
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Let\'s validate email domains (the results)}
+\begin{verbatim}
+>conftest test --policy policies\domain \
+    backend/data/tenants/Second.yaml
+FAIL - backend/data/tenants/Second.yaml - main - \
+  External email addres in flow act_flow_003: \
+  vhhcjfjj@vcap.me
+
+1 test, 0 passed, 0 warnings, 1 failure, 0 exceptions
+
+\end{verbatim} 
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Let\'s validate email domains (the results)}
+\begin{verbatim}
+>curl -s http://localhost:8000/tenant/Second|jq .|\ 
+   conftest test --policy policies\domain -
+FAIL - - main - External email addres in flow \
+ act_flow_003: vhhcjfjj@vcap.me
+
+1 test, 0 passed, 0 warnings, 1 failure, 0 exceptions
+
+\end{verbatim} 
+
+\end{frame}
+
+
 
 \end{document}
