@@ -1,4 +1,18 @@
 name: First
 size: 43
 accountFlows:
-  - name: act_flow_001
+  - act_flow_001: 
+      responsibleEmail: vhhcjfjl@sharklasers.com
+      FlowNodes:
+        - name: Flow_001
+          address: flow001.vcap.me
+          region: US
+          parallelism: 5
+        - name: Flow_002
+          address: flow002.vcap.me
+          region: US
+          parallelism: 5
+  - act_flow_002: 
+      responsibleEmail: vhhcjfjj@sharklasers.com
+  - act_flow_003:
+      responsibleEmail: vhhcjfjj@sharklasers.com    

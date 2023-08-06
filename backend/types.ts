@@ -38,10 +38,12 @@ export class AccountFlow {
     public name: string;
     public inwardNode: FlowNode
     public outwardNodes: Set<FlowNode>
+    public responsibleEmail: string
 
-    constructor(name: string, inwardNode: FlowNode,  outwardNodes: Set<FlowNode>) {
+    constructor(name: string, responsibleEmail: string, inwardNode: FlowNode,  outwardNodes: Set<FlowNode>) {
         this.name = name
         this.inwardNode = inwardNode;
         this.outwardNodes = outwardNodes;
+        this.responsibleEmail = responsibleEmail
     }
 }

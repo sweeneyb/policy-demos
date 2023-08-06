@@ -24,6 +24,12 @@ async function startup() {
 }
 startup();
 
+app.use('/', (req, res, next) => {
+  startup().then( () => {
+    next()
+  })
+})
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server!');
 });
@@ -37,10 +43,10 @@ app.get('/tenants', (req: Request, res: Response) => {
 
 
 app.get('/tenant/:tenantId', (req: Request, res: Response) => {
-  let tenant = estate.get(req.params.tenantId)
-  // const foo : AccountFlow[] = []
-  // let tenant : Tenant =  new Tenant(req.params.tenantId, new Map<String, )
-  res.send(tenant);
+
+    let tenant = estate.get(req.params.tenantId)
+    res.send(tenant);
+
 });
 
 app.listen(port, () => {
