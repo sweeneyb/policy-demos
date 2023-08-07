@@ -14,3 +14,5 @@ set PATH=%PATH%;%USERPROFILE%\AppData\Local\Programs\MiKTeX\miktex\bin\x64\
 venv\Scripts\activate
 pdflatex -shell-escape test.tex
 ```
+
+

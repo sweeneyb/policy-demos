@@ -127,6 +127,33 @@ FAIL - - main - External email addres in flow \
 
 \end{frame}
 
+\begin{frame}
+\frametitle{But Biz shouldn\'t need conftest}
+\begin{itemize}
+  \item While useful, this is a tall ask for less technical folks
+  \item Could we "cloud" it?
+  \item OPA is the engine running as a server
+\end{itemize}
+\end{frame}
 
+\begin{frame}
+\frametitle{OPA is a decision server\footnotemark}
+\begin{itemize}
+  \item Common infra for policy management/eval 
+  \item Works for one-offs, or your prod flows
+  \item Battle hardened, flexible deployments
+\end{itemize}
+\footnotetext[1]{https://www.openpolicyagent.org/docs/latest/rest-api/}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{A query with no data on disk}
+\begin{verbatim}
+curl http://localhost:8000/tenant/Second  |\
+  jq {"input":.} |\
+  curl "http://localhost:8181/v1/data/main" \
+    -H "Content-Type: application/json" --data @-
+\end{verbatim}
+\end{frame}
 
 \end{document}
