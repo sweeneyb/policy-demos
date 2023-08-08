@@ -4,6 +4,7 @@ import { load } from "js-yaml";
 import { readFile } from "fs/promises"
 const YAML = require('yaml')
 const fs = require('fs')
+const axios = require('axios');
 
 import {AccountFlow, Tenant} from './types'
 
@@ -14,7 +15,6 @@ app.use(express.json());
 const port = process.env.PORT;
 
 
-// let estate = new Set<Tenant>()
 let estate = new Map<string, Tenant>()
 
 async function startup() {
@@ -62,11 +62,37 @@ app.post('/tenant/:tenantId', (req: Request, res: Response) => {
   let object: Tenant = req.body
   object['name'] = req.params.tenantId
   console.log(object)
-  const doc = new YAML.Document();
-  doc.contents = object;
-  fs.writeFileSync("./data/tenants/"+req.params.tenantId+".yaml", doc.toString())
+  writeDoc(object)
   res.send(object);
 });
+
+app.post('/tenantWithCheck/:tenantId', async (req: Request, res: Response) => {
+  var regex = /^[1-9a-zA-Z]*$/g
+  if (! regex.test(req.params.tenantId) ) {
+    res.status(400)
+    return
+  }
+  let object: Tenant = req.body
+  object['name'] = req.params.tenantId
+  console.log(object)
+
+  const result = await axios.post('http://localhost:8181/v1/data/main', {"input": object });
+  console.log(result.data)
+  if (result.data['result']['deny'].length > 0) {
+    writeDoc(object)
+    res.send(result.data['result']['deny']);
+  } else {
+    writeDoc(object)
+    res.status(200)
+    res.send()
+  }
+});
+
+function writeDoc(data:Tenant) {
+  const doc = new YAML.Document();
+  doc.contents = data;
+  fs.writeFileSync("./data/tenants/"+data["name"]+".yaml", doc.toString())
+}
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
