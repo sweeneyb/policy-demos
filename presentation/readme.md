@@ -16,3 +16,6 @@ pdflatex -shell-escape test.tex
 ```
 
 
+todo: pull in data from other sources
+
+curl http://localhost:8000/tenant/foo -H "Content-Type: application/json" -d @..\backend\data\tenants\Second.json
