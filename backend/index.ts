@@ -56,8 +56,7 @@ app.get('/tenant/:tenantId', (req: Request, res: Response) => {
 app.post('/tenant/:tenantId', (req: Request, res: Response) => {
   var regex = /^[1-9a-zA-Z]*$/g
   if (! regex.test(req.params.tenantId) ) {
-    res.status(400)
-    return
+    res.status(400).end()
   }
   let object: Tenant = req.body
   object['name'] = req.params.tenantId
@@ -69,8 +68,7 @@ app.post('/tenant/:tenantId', (req: Request, res: Response) => {
 app.post('/tenantWithCheck/:tenantId', async (req: Request, res: Response) => {
   var regex = /^[1-9a-zA-Z]*$/g
   if (! regex.test(req.params.tenantId) ) {
-    res.status(400)
-    return
+    res.status(400).end()
   }
   let object: Tenant = req.body
   object['name'] = req.params.tenantId
@@ -83,8 +81,7 @@ app.post('/tenantWithCheck/:tenantId', async (req: Request, res: Response) => {
     res.send(result.data['result']['deny']);
   } else {
     writeDoc(object)
-    res.status(200)
-    res.send()
+    res.status(200).end()
   }
 });
 
