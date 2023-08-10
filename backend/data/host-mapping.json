@@ -1,0 +1,7 @@
+{ "businessGroup": 
+    { "HR": ["flow101.vcap.me", "flow001.vcap.me"],
+      "engineering": ["flow102.vcap.me", "flow002.vcap.me"]
+    }
+}
+
+ 

@@ -10,3 +10,4 @@ presentation/*.snm
 presentation/*.toc
 test.vrb
 opa.exe
+.opa_history

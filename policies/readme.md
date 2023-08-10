@@ -8,7 +8,9 @@ curl http://localhost:8000/tenant/Second|jq .| conftest test --policy policies\e
 
 
 opa.exe run -s --bundle domain
+opa.exe run -s servers:host-mapping.json domain
 http://localhost:8181/v1/policies
 curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @tenants\Second.json
 
 curl http://localhost:8000/tenant/Second  |jq {"input":.} | curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @-
+curl http://localhost:8000/tenant/Second  |jq {"input":.} | curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @-|jq .

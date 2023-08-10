@@ -2,14 +2,14 @@ name: Second
 size: 72
 accountFlows:
   - act_flow_001: 
-      responsibleEmail: vhhcjfjl@sharklasers.com
+      responsibleEmail: foobar@vcap.me
       FlowNodes:
         - name: Flow_001
-          address: flow001.vcap.me
+          address: flow101.vcap.me
           region: US
           parallelism: 5
         - name: Flow_002
-          address: flow002.vcap.me
+          address: flow202.vcap.me
           region: US
           parallelism: 5
   - act_flow_002: 
