@@ -49,8 +49,13 @@ app.get('/tenants', (req: Request, res: Response) => {
 
 
 app.get('/tenant/:tenantId', (req: Request, res: Response) => {
-    let tenant = estate.get(req.params.tenantId)
-    res.send(tenant);
+    if ( estate.has(req.params.tenantId) ) {
+      let tenant = estate.get(req.params.tenantId)
+      res.send(tenant);
+    } else {
+      res.status(404).end()
+    }
+
 });
 
 app.post('/tenant/:tenantId', (req: Request, res: Response) => {

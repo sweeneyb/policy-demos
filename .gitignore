@@ -9,5 +9,6 @@ presentation/*.out
 presentation/*.snm
 presentation/*.toc
 test.vrb
+presentation.vrb
 opa.exe
 .opa_history

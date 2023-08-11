@@ -3,6 +3,9 @@ pressing Ctrl + and Ctrl - to adjust font size
 conftest test --policy policies\email backend/data/tenants/First.yaml
 conftest test --policy policies\email backend/data/tenants/Second.yaml
 
+conftest test --policy policies\flowLength backend/data/tenants/Second.yaml 
+conftest test --policy policies\flowLength backend/data/tenants/Third.yaml 
+
 curl http://localhost:8000/tenant/First|jq .| conftest test --policy policies\email -
 curl http://localhost:8000/tenant/Second|jq .| conftest test --policy policies\email -
 
