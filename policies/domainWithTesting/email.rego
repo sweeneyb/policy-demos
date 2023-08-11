@@ -14,4 +14,4 @@ is_internal_email(email_address) = true {
     pattern := "@sharklasers.com$"
     matched := regex.match(pattern, email_address)
     matched == true 
-} else = false { true }
+} else = false 

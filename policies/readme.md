@@ -6,8 +6,13 @@ conftest test --policy policies\email backend/data/tenants/Second.yaml
 conftest test --policy policies\flowLength backend/data/tenants/Second.yaml 
 conftest test --policy policies\flowLength backend/data/tenants/Third.yaml 
 
+conftest verify --policy domainWithTesting
+
 curl http://localhost:8000/tenant/First|jq .| conftest test --policy policies\email -
 curl http://localhost:8000/tenant/Second|jq .| conftest test --policy policies\email -
+
+curl http://localhost:8000/tenant/foo -H "Content-Type: application/json" -d @dummy.json
+curl http://localhost:8000/tenantWithCheck/foo -H "Content-Type: application/json" -d @dummy.json
 
 
 opa.exe run -s --bundle domain
