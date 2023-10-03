@@ -18,7 +18,24 @@ curl http://localhost:8000/tenantWithCheck/foo -H "Content-Type: application/jso
 opa.exe run -s --bundle domain
 opa.exe run -s servers:host-mapping.json domain
 http://localhost:8181/v1/policies
-curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @tenants\Second.json
+#curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @tenants\dummy.json
 
 curl http://localhost:8000/tenant/Second  |jq {"input":.} | curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @-
 curl http://localhost:8000/tenant/Second  |jq {"input":.} | curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @-|jq .
+
+# For Demo:
+In 1 window:
+```
+cd policies
+opa.exe run -s servers:host-mapping.json domain
+```
+In another window:
+```
+cd backend
+npm start
+```
+In a third window:
+```
+curl http://localhost:8000/tenant/Second  |jq {"input":.} | curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @-
+curl http://localhost:8000/tenant/Second  |jq {"input":.} | curl "http://localhost:8181/v1/data/main" -H "Content-Type: application/json" --data @-|jq .
+```
